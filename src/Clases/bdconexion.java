@@ -14,7 +14,7 @@ public class bdconexion {
     static ResultSet rs =null;
     
     
-    static String bd="clinicadental";
+    static String bd="clinica_dental_2020";
     static String user="root";
     static String pass="";
     static String url="jdbc:mysql://localhost:3306/"+bd;
