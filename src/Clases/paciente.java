@@ -1,6 +1,7 @@
 package Clases;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class paciente {
@@ -27,11 +28,11 @@ public class paciente {
             pstm.setString(4, apellidos);
             pstm.setString(5, direccion);
             pstm.setString(6, departamento);
+            pstm.setString(7, provincia);
             pstm.setString(8, Distrito);
-            pstm.setString(9, Distrito);
-            pstm.setString(10, telefono1);
-            pstm.setString(11, telefono2);
-            pstm.setString(12, edad);            
+            pstm.setString(9, telefono1);
+            pstm.setString(10, telefono2);
+            pstm.setString(11, edad);            
             
             pstm.execute();
             pstm.close();
@@ -40,6 +41,77 @@ public class paciente {
         {
             System.out.print(e);
         }
+    }
+      
+      //Codigo para obtener los datos de la tabla
+      
+      public Object[][]getDatos()
+    {
+        int registros=0;
+        //obtener la cantidad de registros que hay en la tabla pacientes
+        try
+        {
+            PreparedStatement pstm=(PreparedStatement)
+            con.getConnection().prepareStatement("SELECT count(1) as total FROM paciente");//cuenta el total de registros de la tabla pacientes
+            ResultSet res=pstm.executeQuery();
+            res.next();
+            registros = res.getInt("total");
+            res.close();
+        }
+        catch(SQLException e)
+        {
+         System.out.println(e);   
+        }
+        
+        Object[][] data=new String [registros][11];
+        
+        //realizamos la consulta sql y llenamos los datos del Object
+        
+        try
+        {
+            PreparedStatement pstm=(PreparedStatement)
+            con.getConnection().prepareStatement("SELECT * FROM paciente ORDER BY IdPaciente");
+            ResultSet res=pstm.executeQuery();
+            
+            int i=0;
+            
+            while (res.next())
+            {
+                String estIdPaciente = res.getString("IdPaciente");
+                String estDNI = res.getString("DNI");
+                String estNombres = res.getString("nombres");
+                String estApellidos = res.getString("apellidos");
+                String estDireccion = res.getString("direccion");
+                String estDepto = res.getString("departamento");
+                String estprovincia = res.getString("provincia");
+                String estDistrito = res.getString("Distrito");
+                String estTelefono1 = res.getString("telefono1");
+                String estTelefono2 = res.getString("telefono2");
+                String estFechaNac = res.getString("edad");                               
+                
+                data [i][0]=estIdPaciente;
+                data [i][1]=estDNI;
+                data [i][2]=estNombres;
+                data [i][3]=estApellidos;
+                data [i][4]=estDireccion;
+                data [i][5]=estDepto;
+                data [i][6]=estprovincia;
+                data [i][7]=estDistrito;
+                data [i][8]=estTelefono1;
+                data [i][9]=estTelefono2;
+                data [i][10]=estFechaNac;
+                                             
+                i++;//retorna el ciclo hasta finalizar
+                
+            }
+            
+            res.close();
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e);
+        }
+        return data;
     }
     
     
