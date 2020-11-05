@@ -9,7 +9,7 @@ public class paciente {
     bdconexion con;// inicializa la variable conexion
     
     //Constructor de la clase paciente
-    public paciente()
+    public paciente()//
     {
         con = new bdconexion(); //instancia la clase bdconexion
     }
